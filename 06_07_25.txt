@@ -1,0 +1,16 @@
+I set up a virtual machine environment to deepen my understanding of virtualization, networking, network security, logging, and automation. 
+Initially, I encountered issues using VirtualBox, including kernel driver errors and conflicts with KVM extensions. Due to these problems, I switched to using KVM as the hypervisor, which required removing the VirtualBox setup.
+
+
+After successfully installing and configuring a Linux server VM with Ubuntu, I configured networking using NAT to allow internet access.
+I chose to use the entire disk for storage during installation without enabling encryption to simplify the setup. I installed the OpenSSH server on the VM to enable secure remote access.
+
+For remote management, I set up SSH key-based authentication. This involved generating SSH key pairs on my local Fedora machine, copying the public key to the server, and verifying passwordless login to enhance security and convenience.
+
+I also explored configuring the firewall on the server using UFW (Uncomplicated Firewall). I enabled it, set basic rules to allow SSH traffic, 
+and checked the firewall status to ensure proper protection.
+
+Overall, this project involved troubleshooting virtualization environment issues, setting up and securing a Linux server VM,
+and configuring remote access and firewall rules. For more detailed information, I recommend consulting official KVM and UFW documentation, as well as tutorials on SSH key management.
+
+Next steps include automating server configuration with tools like Ansible, setting up logging and monitoring, and exploring advanced network security measures within the VM environment.
