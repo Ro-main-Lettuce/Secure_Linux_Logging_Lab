@@ -30,6 +30,7 @@ Used to allow sercure connections so I can log into the server from various mach
 Used to allow http and https connections
 
 The following is the rules I settled on  
+
 Status: active
 Logging: on (low)
 Default: deny (incoming), allow (outgoing), disabled (routed)
@@ -40,10 +41,11 @@ To                         Action      From
 22/tcp (OpenSSH)           ALLOW IN    Anywhere                  
 80/tcp                     ALLOW IN    Anywhere                  
 443                        ALLOW IN    Anywhere                  
+514/tcp                    ALLOW IN    Anywhere                  
 22/tcp (OpenSSH (v6))      ALLOW IN    Anywhere (v6)             
 80/tcp (v6)                ALLOW IN    Anywhere (v6)             
 443 (v6)                   ALLOW IN    Anywhere (v6)             
-
+514/tcp (v6)               ALLOW IN    Anywhere (v6)    
 
 Then I navigated to /etc/ssh/sshd_config 
 ''' #PasswordAuthentication no
@@ -51,10 +53,21 @@ checking with my macbook, I cannot SSH in. I need the key on my machine in order
 
 ## Network
 
-Decided I wanted a subnet so I created one
-yellowsubmarine
+Created a subnet (yellowsubmarine) so I can have a more unified way to connect all my machines. Most importantly, it is safer than using my local internet and masks it in some way
 
 ## New V< (ubuntu Workstation)
+
+I created a new vm so I can connect another machine to it and complete the following
+1) needed to see if the subnet worked and had internet
+2) send logging messages to the server and set up my logging messages to be forwarded to the port 514 through TCP.
+
+The subnet worked.
+
+I had to update the etc/rsyslog.conf so the system can forward all logs to the server via TCP through port 514
+
+'''*.* @@<ipadddress>:514
+
+Then I had to go to the ect/syslog.conf file on server and make sure tcp was enabled 
 
 
 
