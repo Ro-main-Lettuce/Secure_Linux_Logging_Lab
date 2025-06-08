@@ -49,5 +49,13 @@ Then I navigated to /etc/ssh/sshd_config
 ''' #PasswordAuthentication no
 checking with my macbook, I cannot SSH in. I need the key on my machine in order to login
 
+## Network
+
+Decided I wanted a subnet so I created one
+yellowsubmarine
+
+## New V< (ubuntu Workstation)
+
+
 
 
