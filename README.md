@@ -70,5 +70,10 @@ I had to update the etc/rsyslog.conf so the system can forward all logs to the s
 Then I had to go to the ect/syslog.conf file on server and make sure tcp was enabled 
 
 
+![image](https://github.com/user-attachments/assets/2f109d91-bec0-4c3d-980d-243046154261)
+
+sudo -f tail -/var/log/syslog
+
+I want to separate the loggign information with the logging messages so I'm going to separate them.
 
 
