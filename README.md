@@ -105,5 +105,59 @@ if($programname == 'CRON') then stop
 
 This webpage helped me https://tp69.blog/2019/01/01/suppressing-messages-in-var-log-syslog/
 
+#Conecting to my mac. 
+
+I created a user for my macbook so I can work on my project on the go and see the logs
+I created an account specifally for my macbook on my server
+
+''' sudo useradd <name>
+''' sudo passwrd <name>
+
+Later on, I forgot I already made the user and used
+
+''' getent passwrd <name>
+
+this confirmed the user existed
+
+to make it easy to sign on i created a public key on my mac and copied it on the correct directory
+
+''' ~/.ssh/id_rsa.pub).
+
+''' /home/<name>/.ssh/authorized_keys (on server)
+
+I realized I wanted to be able to work on my project when I'm on the go, So I thought I needed to configure port forwarding. 
+
+I tried to forward my Host machine's port 2222 to 22 on my VM 
+ sudo iptables -t nat -A PREROUTING -p tcp --dport 2222 -j DNAT --to-destination 192.168.100.1:22
+ sudo iptables -t nat - A POSTROUTING -p tcp -d 192.168.100.1 --dport 22 -j MASQUERADE
+
+
+
+
+Chain PREROUTING (policy ACCEPT 104 packets, 15144 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 DNAT       6    --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:2222 to:192.168.100.1:22
+
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain POSTROUTING (policy ACCEPT 611 packets, 72339 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 MASQUERADE  6    --  *      *       0.0.0.0/0            192.168.100.1        tcp dpt:22
+
+
+
+I failed to understand that my server and vm's are connected via my personal private virtual subnet. which uses a NAT network (virb1). This is isolated from my laptop which is connected to the home wifi So there was never any way for my macbook to get into my server. 
+
+Even when I tried to ping it, there was no pakages reached. 
+
+Then I decided to use Tailscale VPN to bridge network gaps. Each of my connected devices joins the same private network after i logged in via my GitHub account. These devices are given a stable 100.x.x.x IP so they can always communicate. 
+
+
+![image](https://github.com/user-attachments/assets/22de410d-6ec8-4071-bc6e-fb93ef40980f)
+
 
 
