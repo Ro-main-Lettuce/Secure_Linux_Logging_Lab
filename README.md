@@ -1,33 +1,51 @@
 # secure-home-lab
 
 ## Overview
-Project to deepen understanding of virtualization,networks, server hardening, firewall management, logging, and automation. KVM server, SSH, firewall polices, Ansible
+A hands-on project to deepen my understanding of virtualization, networking, firewall management, server hardening, log forwarding, and automation — all built and maintained using Linux, rsyslog, ufw, and Ansible.
 
 ## Goals
-Learn virtualization. In this project I used (KVM)
-Explore networking and firewall configuration
-Implement logging and automation
+Build and manage virtual machines using KVM/QEMU
 
-## Progress
-VM set up
-SSH set up
-Key set up
-Basic Firewall set up
+Secure VMs using UFW, SSH key-based login, and subnet isolation
+
+Create and manage a central logging server
+
+Filter noisy logs with rsyslog
+
+Automate tasks with Ansible
+
+Enable remote connectivity using Tailscale VPN
+
+
+
+## Current Progress
+
+Set up multiple Ubuntu VMs
+
+Configured SSH key-based login
+
+Applied custom firewall rules
+
+Created an isolated virtual subnet (virbr1)
+
+Centralized logging from clients → server
+
+Filtered noisy logs via rsyslog.d confs
+
+Enabled secure remote access using Tailscale
+
+Automate setup with Ansible (in progress)
 
 
 ## Firewalls (UFW)
-To set up my firewalls, the ubuntu uses UFW (uncomplicated firewalls).
-I want the server to allow ssh, http, https connections. I used the follwoing commands to enable ufw, allow the various permissions I wanted.
+Ubuntu’s Uncomplicated Firewall is used to secure each VM. The following rules allow essential traffic while blocking everything else by default:
 
-''' sudo ufw enable
-was used to enable the firewall
+sudo ufw enable
+sudo ufw allow OpenSSH
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw allow 514/tcp  # For rsyslog logging
 
-''' sudo ufw allow OpenSSH
-Used to allow sercure connections so I can log into the server from various machines
-
-''' sudo ufw allow http
-''' sudo ufw allow https
-Used to allow http and https connections
 
 The following is the rules I settled on  
 
@@ -35,35 +53,49 @@ Status: active
 Logging: on (low)
 Default: deny (incoming), allow (outgoing), disabled (routed)
 New profiles: skip
-
 To                         Action      From
 --                         ------      ----
-22/tcp (OpenSSH)           ALLOW IN    Anywhere                  
-80/tcp                     ALLOW IN    Anywhere                  
-443                        ALLOW IN    Anywhere                  
-514/tcp                    ALLOW IN    Anywhere                  
-22/tcp (OpenSSH (v6))      ALLOW IN    Anywhere (v6)             
-80/tcp (v6)                ALLOW IN    Anywhere (v6)             
-443 (v6)                   ALLOW IN    Anywhere (v6)             
-514/tcp (v6)               ALLOW IN    Anywhere (v6)    
+OpenSSH                    ALLOW       Anywhere                  
+80/tcp                     ALLOW       Anywhere                  
+443                        ALLOW       Anywhere                  
+514/tcp                    ALLOW       Anywhere                  
+22/tcp                     ALLOW       Anywhere                  
+OpenSSH (v6)               ALLOW       Anywhere (v6)             
+80/tcp (v6)                ALLOW       Anywhere (v6)             
+443 (v6)                   ALLOW       Anywhere (v6)             
+514/tcp (v6)               ALLOW       Anywhere (v6)             
+22/tcp (v6)                ALLOW       Anywhere (v6)   
+
 
 Then I navigated to /etc/ssh/sshd_config 
 ''' #PasswordAuthentication no
-checking with my macbook, I cannot SSH in. I need the key on my machine in order to login
 
-## Network
+SSH keys are used to authenticate from trusted machines (e.g., my MacBook).
 
-Created a subnet (yellowsubmarine) so I can have a more unified way to connect all my machines. Most importantly, it is safer than using my local internet and masks it in some way
+Created a new user account, then set up key-based auth:
 
-## New V< (ubuntu Workstation)
+ssh-keygen
+ssh-copy-id user@server
+
+## Virtual Subnet & Networking
+
+To simulate a safe, self-contained network:
+
+    A custom subnet (virbr1) was created
+
+    All VMs live on this subnet to isolate them from my home Wi-Fi
+
+    This enables tighter control and safer experimentation
+
 
 I created a new vm so I can connect another machine to it and complete the following
 1) needed to see if the subnet worked and had internet
 2) send logging messages to the server and set up my logging messages to be forwarded to the port 514 through TCP.
 
-The subnet worked.
+## Centerallized Logging (rsyslog)
 
-I had to update the etc/rsyslog.conf so the system can forward all logs to the server via TCP through port 514
+To forward all logs over TCP to the the logging server
+I had to update the etc/rsyslog.conf
 
 '''*.* @@<ipadddress>:514
 
