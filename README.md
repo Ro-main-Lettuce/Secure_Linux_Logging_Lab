@@ -81,11 +81,11 @@ ssh-copy-id user@server
 
 To simulate a safe, self-contained network:
 
-    A custom subnet (virbr1) was created
+A custom subnet (virbr1) was created
 
-    All VMs live on this subnet to isolate them from my home Wi-Fi
+All VMs live on this subnet to isolate them from my home Wi-Fi
 
-    This enables tighter control and safer experimentation
+This enables tighter control and safer experimentation
 
 
 I created a new vm so I can connect another machine to it and complete the following
@@ -108,32 +108,28 @@ sudo -f tail -/var/log/syslog
 
 I had to set up /etc/rsyslog.config to send logs from connected machines to their own dirctory
 I did this by adding this to the file:
-''' $template RemoteLogs,"/var/log/%HOSTNAME%/remote_logs.log"
 
-local0.* action(type="omfile" dynaFile="RemoteLogs")
 
-$IncludeConfig /etc/rsyslog.d/*.conf
+    # All logs (including remote) still go to syslog
+    *.* /var/log/syslog
+
 
 https://www.redhat.com/en/blog/log-aggregation-rsyslog (this webpage helped me figure this step out)
 
-When the logs came it, it was a lot of junk inforamtion. Just as updates taking place and cron job. An overwhelming amount of systemd messages of  processes starting and finsihing.
-I had to edit my conf file, so that noise could be surpressed. 
+
+To make each sure logs of high priority were being addressed, I created configuration rules to direct those logs to a certain location. 
+
+Within /etc/rsyslog.d the following directopries where written 
+
+    10-remote.conf  20-ufw.conf  21-cloudinit.conf  30-sudo-usage.conf  40-ssh-fail-filter.conf  50-default.conf
+
+These are included in the project files.
 
 
-#
-# Include all config files in /etc/rsyslog.d/
-#
-$template RemoteLogs,"/var/log/%HOSTNAME%/remote_logs.log"
-local0.* action(type="omfile" dynaFile="RemoteLogs")
+According to a stackoverflow user :
 
-## filitering out the noise 
+    /etc/rsyslog.d/ is just the directory where rsyslog's configuration files are kept. Rsyslog, just like the majority of the services nowadays, uses split configuration files (one file for each source) as opposed to a big configuration file containing all the sources. If you take a look into /etc/ you will find that many other services are organized in a similar way, for instance /etc/httpd/conf.d/.
 
-if($programname == 'gnome-shell') then stop
-if($programname == 'systemd') then stop
-if($programname == 'rsyslogd') then stop
-if($programname == 'rtkit-daemon') then stop
-if($programname == 'update-notifier') then stop
-if($programname == 'CRON') then stop
 
 This webpage helped me https://tp69.blog/2019/01/01/suppressing-messages-in-var-log-syslog/
 
