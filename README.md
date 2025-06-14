@@ -126,7 +126,7 @@ I had to edit my conf file, so that noise could be surpressed.
 $template RemoteLogs,"/var/log/%HOSTNAME%/remote_logs.log"
 local0.* action(type="omfile" dynaFile="RemoteLogs")
 
-# filitering out the noise 
+## filitering out the noise 
 
 if($programname == 'gnome-shell') then stop
 if($programname == 'systemd') then stop
@@ -137,7 +137,7 @@ if($programname == 'CRON') then stop
 
 This webpage helped me https://tp69.blog/2019/01/01/suppressing-messages-in-var-log-syslog/
 
-#Conecting to my mac. 
+##Conecting to my mac. 
 
 I created a user for my macbook so I can work on my project on the go and see the logs
 I created an account specifally for my macbook on my server
