@@ -189,3 +189,19 @@ Then I decided to use Tailscale VPN to bridge network gaps. Each of my connected
 
 
 
+## Ansible
+
+To begin my automation process. I wanted to set up ansible on my machine.
+
+
+I set up my inventory.ini file
+
+    [myhosts]
+    <ip> ansible_ssh_user=<server_username>
+
+    <ip> ansible_ssh_user=<host_username>
+
+
+then to make sure it was working
+
+    ansible myhosts -m ping -i inventory.ini
