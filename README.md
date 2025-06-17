@@ -205,3 +205,7 @@ I set up my inventory.ini file
 then to make sure it was working
 
     ansible myhosts -m ping -i inventory.ini
+
+
+
+![image](https://github.com/user-attachments/assets/8f045fbe-a1af-4bcd-ae80-654dfa89bd1b)
