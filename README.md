@@ -189,23 +189,54 @@ Then I decided to use Tailscale VPN to bridge network gaps. Each of my connected
 
 
 
-## Ansible
+## Cloud-init
 
-To begin my automation process. I wanted to set up ansible on my machine.
+To automate the process of automating vm deployment cloud-init weas used to confisgure them and forward its logs to the SIEM Server.
+
+This file can be found in {ENTER_LOCATION}
+
+#Useful Virsh Commands
+
+to check vm status
+
+    sudo virsh list --all
+
+connect to the vm console
+
+    sudo virsh console log-client-01
+
+see the VM's IP(via DHCP)
+
+    sudo virsh net-dhcp-leases nat0
+
+See networks
+
+    sudo virsh net-list --all
+Stop/start vms
+
+    sudo virsh start log-client-01
+    sudo virsh shutdown log-client-01
 
 
-I set up my inventory.ini file
+#Log Rotation
 
-    [myhosts]
-    <ip> ansible_ssh_user=<server_username>
+I set up a basic log roatation file for safety
 
-    <ip> ansible_ssh_user=<host_username>
+sudo vi /etc/logrotate.d/filtered-logs
+
+/var/log/filtered/*.log {
+    daily
+    rotate 14
+    compress
+    missingok
+    notifempty
+    create 0640 syslog adm
+    sharedscripts
+    postrotate
+        /usr/lib/rsyslog/rsyslog-rotate || true
+    endscript
+}
 
 
-then to make sure it was working
-
-    ansible myhosts -m ping -i inventory.ini
 
 
-
-![image](https://github.com/user-attachments/assets/8f045fbe-a1af-4bcd-ae80-654dfa89bd1b)
