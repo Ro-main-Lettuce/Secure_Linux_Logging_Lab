@@ -1,0 +1,22 @@
+#cloud-config
+hostname: log-client-01
+users:
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: sudo
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh{KEY}
+    plain_text_passwd:  password123
+    lock_passwd:  false
+ssh_pwauth:  true
+
+write_files:
+  -  path:  /etc/rsyslog.d/60-forwarding.conf
+     owner: root:root
+     permissions:  '0644'
+     content:  |
+       *.* @@<SERVER_IP>:514
+
+runcmd:
+  -  systemctl restart rsyslog
