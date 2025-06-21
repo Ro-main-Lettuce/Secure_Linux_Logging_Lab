@@ -1,4 +1,4 @@
-# secure-home-lab
+# secure-Linux Logging Lab
 
 ## Overview
 A hands-on project to deepen my understanding of virtualization, networking, firewall management, server hardening, log forwarding, and automation — all built and maintained using Linux, rsyslog, ufw, and Ansible.
