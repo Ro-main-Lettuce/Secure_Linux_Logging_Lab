@@ -238,5 +238,30 @@ sudo vi /etc/logrotate.d/filtered-logs
 }
 
 
+## Connecting rsyslog to a SQLdatabase(PostgreSQL)
+
+I used this as a reference/guide https://www.rsyslog.com/doc/tutorials/database.html
+
+I set up a virtual python enviroment within my virtual ubuntu server, to ensure I didn't mess with my system's own version of python.
+
+I had the following set up within my server to hold my UI path
+
+I also had to set up the db which I named serverevents
+
+log_dashboard ------- index.html
+                ----- app.py
+                ----- log_ingestor.py
+                ----- templates ---
+
+
+## User Interface 
+
+My goal for this section is to make the index page and the log page attractive. I wanted more creative freedom so I used plain css/html.
+I might use graphs.css for more data visualization of my syslogs 
+
+
+<WIP>
+                     
+
 
 
