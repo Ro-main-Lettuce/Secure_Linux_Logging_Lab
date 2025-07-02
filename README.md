@@ -257,11 +257,23 @@ log_dashboard ------- index.html
 ## User Interface 
 
 My goal for this section is to make the index page and the log page attractive. I wanted more creative freedom so I used plain css/html.
-I might use graphs.css for more data visualization of my syslogs 
+I used graphs.css for more data visualization of my syslogs 
 
 
-<WIP>
+Here is a demo of my project:
                      
 
 
 
+
+
+https://github.com/user-attachments/assets/c7c99122-dcb0-4d3d-96da-679493789802
+
+
+
+I do plan on adding the follwoing 
+    : some sort of alert system for certain cases and testing the security of it by using medusa or soemthing similar. 
+    : fixing the user interface and making it more attractve
+    : having the logs get some sort of tag via location to see the location of the threat
+    - Authetication for the interface
+    - Container the whole application using Docker
