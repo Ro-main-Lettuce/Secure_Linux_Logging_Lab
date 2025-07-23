@@ -42,11 +42,16 @@ A hands-on project to deepen my understanding of:
 
     ✅ Centralized logging from clients to the server
 
-    ✅ Filtered noisy logs via rsyslog.d configurations
+    ✅ Filtered logs via rsyslog.d configurations
 
     ✅ Enabled secure remote access using Tailscale
+    
+    ✅ Flask Dashboard
 
-    🟡 Automating setup with Ansible (in progress)
+    
+
+
+
 
 
 ##Virtualization & Networking
